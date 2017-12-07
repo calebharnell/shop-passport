@@ -5,7 +5,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const { initialize } = require('./middleware/auth');
+const { initialize, requireJWT, verifyAdmin } = require('./middleware/auth');
 
 const app = express();
 
@@ -16,13 +16,17 @@ app.use(initialize)
 // Routes
 app.use([
     require('./routes/products'),
-    require('./routes/auth')
+    require('./routes/auth'),
+    require('./routes/stores')
 ])
 
+app.get('/admin', requireJWT, verifyAdmin, (req, res) => {
+  res.send('Hello admin!')
+})
 
 // JSON error handling
 app.use((error, req, res, next) => {
-  res.send({ error: error.message })
+  res.status(500).send({ error: error.message })
 });
 
 app.use((req, res, next) => {
@@ -40,3 +44,5 @@ app.listen(7000, (error) => {
     console.log('Server is listening on http://localhost:7000/')
   }
 });
+
+module.exports = app;
