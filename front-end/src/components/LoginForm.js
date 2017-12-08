@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { api, setJwt } from '../api/init';
-import { Control, Title, Level, Button, Input} from 'reactbulma';
+import { Control, Level, Button, Input} from 'reactbulma';
 import '../App.css';
 
 class LoginForm extends Component {
@@ -37,7 +37,6 @@ class LoginForm extends Component {
     return (
       <Level>
         <Control>
-          <Title>Log In</Title>
           <form onSubmit={this.handleLoginSubmit}>
             <Input type="text"
               placeholder="Email"

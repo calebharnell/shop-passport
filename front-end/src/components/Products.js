@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { api } from '../api/init';
 import '../App.css';
+import { Notification } from 'reactbulma';
 
 class Products extends Component {
   constructor(props){
@@ -12,10 +13,9 @@ class Products extends Component {
 
   render() {
     return (
-      this.state.products.map((product) => 	<div key={product._id}>
-      																				<p>{product.name}</p>
-      																				<p>{product.brandName}</p>
-      																			</div>)
+      this.state.products.map((product) => 	<Notification primary key={product._id}>
+      																				<p>{product.name} {product.brandName}</p>
+      																			</Notification>)
     )
   }
 

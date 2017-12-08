@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import LoginForm from './components/LoginForm';
 import Products from './components/Products';
 import RegisterForm from './components/RegisterForm';
+import Header from './components/Header'
 import { setJwt } from './api/init';
 import { Button } from 'reactbulma';
 import './App.css';
@@ -26,26 +27,29 @@ class App extends Component {
 
   render() {
 
-    let loggedInState = null
+    let appDisplay = null
     if (!this.state.loggedIn && !this.state.register) {
-      loggedInState = <div>
-                        <LoginForm handleLoginResponse={this.handleLoginResponse} />
-                        <Button onClick={this.toggleRegister}>Register</Button>
-                      </div>
+      appDisplay =  <div>
+                      <Header value='Log In'/>
+                      <LoginForm handleLoginResponse={this.handleLoginResponse} />
+                      <Button onClick={this.toggleRegister}>Register</Button>
+                    </div>
     } else if (this.state.register) {
-      loggedInState = <div>
-                        <RegisterForm />
-                        <Button onClick={this.toggleRegister}>Log In</Button>
-                      </div>
+      appDisplay =  <div>
+                      <Header value='Register'/>
+                      <RegisterForm handleLoginResponse={this.handleLoginResponse}/>
+                      <Button onClick={this.toggleRegister}>Log In</Button>
+                    </div>
     } else {
-      loggedInState = <div>
-                        <Products token={this.state.loggedIn}/>
-                      </div>
+      appDisplay =  <div>
+                      <Header value='Products'/>
+                      <Products token={this.state.loggedIn}/>
+                    </div>
     }
 
     return (
       <div className="App">
-        {loggedInState}
+        {appDisplay}
       </div>
     );
   }
