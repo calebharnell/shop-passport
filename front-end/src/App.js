@@ -1,49 +1,46 @@
 import React, { Component } from 'react';
-import './App.css';
 import LoginForm from './components/LoginForm';
+import Products from './components/Products';
 import RegisterForm from './components/RegisterForm';
+import { setJwt } from './api/init';
 import { Button } from 'reactbulma';
+import './App.css';
 
 class App extends Component {
   state = {
-    loading: true,
-    loggedIn: false,
-    registered: true
+    loggedIn: null,
+    register: false
   }
 
-  setToken = (response) => {
+  toggleRegister = () => {
+    this.setState({
+      register: !this.state.register
+    })
+  }
+
+  handleLoginResponse = (response) => {
     this.setState({
       loggedIn: response.data.token
     })
   }
 
-  showRegister = () => {
-    let registeredToggle = !this.state.registered
-    this.setState(prevState => ({
-      registered: registeredToggle
-    }))
-  }
-
   render() {
 
-    let loggedInState = null;
-    if (!this.state.loggedIn && this.state.registered) {
-      loggedInState =
-      <div>
-        <LoginForm handleLogIn={this.setToken}/><br />
-        <Button onClick={this.showRegister}>Register</Button>
-      </div>
-    } else if (!this.state.loggedIn && !this.state.registered) {
-      loggedInState =
-      <div>
-        <RegisterForm /><br />
-        <Button onClick={this.showRegister}>Log In</Button>
-      </div>
-    }else {
-      loggedInState =
-        <div>
-          <p>All Products</p>
-        </div>
+    let loggedInState = null
+    if (!this.state.loggedIn && !this.state.register) {
+      loggedInState = <div>
+                        <LoginForm handleLoginResponse={this.handleLoginResponse} />
+                        <Button onClick={this.toggleRegister}>Register</Button>
+                      </div>
+    } else if (this.state.register) {
+      loggedInState = <div>
+                        <RegisterForm />
+                        <Button onClick={this.toggleRegister}>Log In</Button>
+                      </div>
+    } else {
+      loggedInState = <div>
+                        <Products token={this.state.loggedIn}/>
+                      </div>
     }
 
     return (
@@ -52,9 +49,12 @@ class App extends Component {
       </div>
     );
   }
-  componentDidMount = () => {
+
+  componentDidMount() {
+    let token = localStorage.getItem('token')
+    token && setJwt(token)
     this.setState({
-      loading: false
+      loggedIn: token
     })
   }
 }

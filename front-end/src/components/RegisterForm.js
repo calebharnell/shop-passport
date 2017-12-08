@@ -1,25 +1,21 @@
 import React from 'react';
-import { Control, Input, Button, Title } from 'reactbulma'
+import { Control, Title, Level, Button, Input} from 'reactbulma';
+import '../App.css';
 
 const RegisterForm = () => (
-  <div>
-    <Title>Register</Title>
-    <form>
-      <Control>
-        <Input primary placeholder="First Name"/>
-      </Control><br />
-      <Control>
-        <Input primary placeholder="Last Name"/>
-      </Control><br />
-      <Control>
-        <Input primary placeholder="Email"/>
-      </Control><br />
-      <Control>
-        <Input primary placeholder="Password"/>
-      </Control><br />
-      <Button primary>Submit</Button>
-    </form>
-  </div>
-)
+  <Level>
+    <Control>
+      <Title>Register</Title>
+      <form>
+        <Input type="text" placeholder="First Name" />
+        <Input type="text" placeholder="Last Name" />
+        <Input type="text" placeholder="Email" />
+        <Input type="password" placeholder="Password" />
+        <Input type="password" placeholder="Password" />
+        <Button>Register</Button>
+      </form>
+    </Control>
+  </Level>
+);
 
 export default RegisterForm;

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Control, Input, Button, Title } from 'reactbulma'
-import axios from 'axios';
+import { api, setJwt } from '../api/init';
+import { Control, Title, Level, Button, Input} from 'reactbulma';
+import '../App.css';
 
 class LoginForm extends Component {
   constructor(props){
@@ -19,36 +20,41 @@ class LoginForm extends Component {
 
   handleLoginSubmit = (event) => {
     event.preventDefault();
-    axios.post('/auth', {
-      email: this.state.emailValue,
-      password: this.state.passwordValue
-    })
-    .then((response) => {
-      this.props.handleLogIn(response)
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+      api.post('/auth', {
+        email: this.state.emailValue,
+        password: this.state.passwordValue
+      })
+      .then((response) => {
+        setJwt(response.data.token)
+        this.props.handleLoginResponse(response)
+      })
+      .catch((error) => {
+        console.log('An error occured when trying to login.', error)
+      })
   }
 
   render() {
     return (
-      <div>
-        <Title>Log In</Title>
-        <form onSubmit={this.handleLoginSubmit}>
-          <Control>
-            <Input name='emailValue' primary onChange={this.handleLoginChange} value={this.state.emailValue} placeholder="Email"/>
-          </Control><br />
-          <Control>
-            <Input name='passwordValue'primary onChange={this.handleLoginChange} value={this.state.passwordValue} placeholder="Password"/>
-          </Control><br />
-          <Button primary>Submit</Button>
-        </form>
-      </div>
-    );
+      <Level>
+        <Control>
+          <Title>Log In</Title>
+          <form onSubmit={this.handleLoginSubmit}>
+            <Input type="text"
+              placeholder="Email"
+              name="emailValue"
+              onChange={this.handleLoginChange}
+              value={this.state.emailValue} />
+            <Input type="password"
+              placeholder="Password"
+              name="passwordValue"
+              onChange={this.handleLoginChange}
+              value={this.state.passwordValue} />
+            <Button>Log In</Button>
+          </form>
+        </Control>
+      </Level>
+    )
   }
-
-
 }
 
 export default LoginForm;
