@@ -7,7 +7,8 @@ import { Button } from 'reactbulma';
 class App extends Component {
   state = {
     loading: true,
-    loggedIn: false
+    loggedIn: false,
+    registered: true
   }
 
   setToken = (response) => {
@@ -16,16 +17,29 @@ class App extends Component {
     })
   }
 
+  showRegister = () => {
+    let registeredToggle = !this.state.registered
+    this.setState(prevState => ({
+      registered: registeredToggle
+    }))
+  }
+
   render() {
 
     let loggedInState = null;
-    if (!this.state.loggedIn) {
+    if (!this.state.loggedIn && this.state.registered) {
       loggedInState =
       <div>
         <LoginForm handleLogIn={this.setToken}/><br />
-        <Button>Register</Button>
+        <Button onClick={this.showRegister}>Register</Button>
       </div>
-    } else {
+    } else if (!this.state.loggedIn && !this.state.registered) {
+      loggedInState =
+      <div>
+        <RegisterForm /><br />
+        <Button onClick={this.showRegister}>Log In</Button>
+      </div>
+    }else {
       loggedInState =
         <div>
           <p>All Products</p>

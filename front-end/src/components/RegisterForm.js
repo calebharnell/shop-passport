@@ -1,7 +1,7 @@
 import React from 'react';
 import { Control, Input, Button, Title } from 'reactbulma'
 
-const LoginForm = () => (
+const RegisterForm = () => (
   <div>
     <Title>Register</Title>
     <form>
@@ -22,4 +22,4 @@ const LoginForm = () => (
   </div>
 )
 
-export default LoginForm;
+export default RegisterForm;
